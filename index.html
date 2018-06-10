@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        
+        <title>Art App Game</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Joan Chirinos">
+        <meta name="description" content="A game for studying for the Art App final">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <style>
+        
+            body {
+                background-color: rgba(240, 248, 255, 0.19);
+            }
+            button, .p {
+                background-color: #fde3e7;
+                font-size: 18px;
+            }
+            
+            
+        </style>
+        
+        <script>
+        
+            var score = 0;
+            var yearAt = 0;
+            var possibleYears = [['one', 17], ['two', 16], ['three', 13], ['four', 13]];
+            var questionAt = 0;
+            
+            var answers1 = [['Women (Venus) of Willendorf', 'Doll of Willendorf', 'Plump Clay Pottery', 'Venus of Africa'], ['Cave Painting of Lascaux', 'Cave Painting of Chauvet', 'Cave Painting of Ghasros', 'Cave Painting of Sistine'], ['Cave Painting of Ghasros', 'Cave Painting of Sistine', 'Cave Painting of Lascaux', 'Cave Painting of Chauvet'], ['Collosus Rhodes', 'Temple of Artemis', 'Babylon Stone', 'Stonehenge'], ['Palette of Narmer', 'Seated Scribe', 'King Nefertiti', 'Kritios Boy'], ['Pyramids of Djoser', 'Pyramids of Giza', 'Pyramids of Khufu', 'Pyramids of Dang'], ['Kouros Couple', 'Queen Nefertiti', 'King Menkaure and Wife', 'Palette of Narmer'], ['Seated Kouros', 'Scribe of Narmer', 'Kouros Boy', 'Seated Scribe'], ['Queen Nefertiti', 'Queen Hatshepsut', 'Queen Nitocris', 'Queen Jenny'], ['Kirous', 'Kouros', 'Kiritios', 'Kouras'], ['Seated Kritios', 'Venus of Kritios', 'Kritios Boy', 'Kritios Kouros'], ['Spearbearer Diskobolos', 'Contrapposto Assegna', 'Discus Thrower Doryphoros', 'Spearbearer Doryphoros'], ['Discus Thrower Diskobolus', 'Discus Thrower Doryphoros', 'Contrapposto Assegna', 'Spearbearer Diskobolus'], ['Greek Biblia', 'Parthenon', 'Alexandria Library', 'Alexandria Atlas'], ['Winged Feast', 'Parthenon Marbles', 'Pergamon Altar', 'Winged Victory'], ['Winged Triumph', 'Kalkeryes Fall', 'Winged Defeat', 'Dying Peter (Trumpeter)'], ['Dying Gaul (Trumpeter)', 'Dying Pheidippides (Runner)', 'Dying Darnen (Sculptor)']];
+            
+            var answers2 = [['Parthenon', 'Greek Biblia', 'Pantheon', 'Hagia Sophia'], ['Pantheon', 'Flavian Amphitheatre', 'Parthenon', 'Colosseum'], ['Basilicas', 'Chartes', 'Notre Dame', 'Flavian Amphitheatre'], ['Flavian Amphitheatre', 'Chartes', 'Notre Dame', 'Basilicas'], ['Basilicas', 'Hagia Sophia', 'Notre Dame', 'Chartes'], ['Giovanni: Ventian Ladder', 'Giovanni: Last Judgement', 'Giotto: Last Judgement', 'Giotto: Lamentation'], ['Donatello: David', 'Michelangelo: David', 'Donatello: Paul', 'Michelangelo: Paul'], ['Botticelli: Shell of Spring', 'Botticelli: Birth of Venus', 'Botticelli: Birth of Mary', 'Botticelli: Birth of Madonna'], ['Leonardo: Jona Lisa', 'Leonardo: Kona Lisa', 'Leonardo: Lona Lisa', 'Leonardo: Mona Lisa'], ['Leonardo: Last Supper', 'Leonardo: Last Meal', 'Botticelli: Last Supper', 'Botticelli: Last Meal'], ['Giotto: Piety', 'Michelangelo: Pieta', 'Leonardo: Piety', 'Michelangelo: Peter'], ['Leonard: David', 'Giotto: David', 'Michelangelo: David', 'Botticelli: Darean'], ['Leonardo: Sistine Church', 'Michelangelo: Sistine Church', 'Leonardo: Sistine Chapel', 'Michelangelo: Sistine Chapel'], ['Raphael: School of Athens', 'Leonardo: School of Athens', 'Michelangelo: School of Romans', 'Giotto: School of Spartans'], ['Leonardo: Madonna and Child', 'Raphael: Madonna and Child', 'Michelangelo: Mary and Child', 'Leonardo: Mary and Child']];
+            
+            var answers3 = [['Raphael: Protestant Wedding', 'Jane Erye: Arnolfini Wedding', 'Van Eyck: Arnolfini Wedding', 'Giotto: Aravaggio Wedding'], ['Soldiers in the Winter', 'Hunters in the Winter', 'Soldiers in the Snow', 'Hunters in the Snow'], ['Durer: Four Horsemen of the Apocalypse', 'David: Four Horsemen of the Apocalypse', 'David: Four Horsemen of Night', 'Durer: Four Horsemen of Night'], ['Bernini: Calling of St. Sophia', 'Durer: Calling of St. Maria', 'Velazquez: Calling of St. Theresa', 'Caravaggio: Calling of St. Matthew'], ['Bernini: David', 'Donatello: David', 'Michelangelo: David', 'Leonardo: David'], ['Caravaggio: Ecstasy of St. Madonna', 'Bernini: Ecstasy of St. Theresa', 'Giotto: Ecstasy of St. Maria', 'David: Ecstasy of St. Sophia'], ['Velazquez: Maids of Honorary', 'Velazquez: Maids of Festivity', 'Velazquez: Maids of Honor', 'Velazquez: Maids of Nightwatch'], ['Rembrandt: Raising of Jesus', 'Rembrandt: Raising of the Spike', 'Rembrandt: Raising of the Corss', 'Rubens: Raising of Cross'], ['Rembrandt: Nightwatch', 'Rubens: Nightwatch', 'Bernini: Nightwatch', 'David: Nightwatch'], ['Donatello: Death of Plato', 'David: Death of Plato', 'David: Death of Socrates', 'Donatello: Death of Socrates'], ['Donatello: Death of Marwa', 'David: Death of Marwa', 'David: Death of Marat', 'Donatello: Death of Marat'], ['Goya: Fifth of May 1807', 'Goya: Third of May 1809', 'Goya: Fifth of May 1808', 'Goya: Third of May 1808'], ['Delacroix: Liberty Leading the People', 'Delacroix: General Leading the People', 'Delacroix: Liberty Leading the Mass', 'Delacroix: Liberty Leading the Mass']];
+            
+            var answers4 = [['Monet: Luncheon on the Grass', 'Manet: Luncheon on the Grass', 'Monet: Luncheon in the Park', 'Manet: Luncheon in the Park'], ['Monet: Hills', 'Manet: Lascapes', 'Monet: Landscapes', 'Manet: Hills'], ['Manet: Cityscapes', 'Monet: Buildings', 'Manet: Buildings', 'Monet: Cityscapes'], ['Renoir: Boating Party', 'Renoir: Fishing Party', 'Renoir: Summer Party', 'Renoir: Mountain Party'], ['Van Gogh: Marry Me Night', 'Van Gogh: Starry Nights', 'Van Dough: Curry Night', 'Dan Lough: Darry Night'], ['Seurat: Sunday on the Grand Jatte', 'Seurat: Sunday on the Grand Janette', 'Seurat: Sunday on the Grande Jatte', 'Seurat: Sunday on the Grande Janette'], ['Cezanne: Mont St. Victoria', 'Cezan Delacroix ne: Mont St. Victoria', 'Cezan Delacroix ne: Mont St. Victoire', 'Cezanne: Mont St. Victorie'], ['Munch: The Scream', 'Munch: The Ice Cream', 'Munich: The Scream', 'Munich: The Ice Cream'], ['Matissa: Red Studio', 'Matisse: Red Studio', 'Matissa: Red Room', 'Matisse: Red Room'], ['Matisse: The Festival', 'Matissa: The Festival', 'Matisse: The Dance', 'Matissa: The Dance'], ['Matisse: Women of Avignon', 'Matisse: Ladies of Avian', 'Picasso: Ladies of Avignon', 'Picasso: Women of Avignon'], ['Guernica: Collage', 'Picasso: Collage', 'Guernica: Pieces', 'Picasso: Pieces'], ['Picasso: LHOOQ', 'Duchamp: LHOOQ', 'Guernica: LHOOQ', 'Matisse: LH00Q']];
+            
+            var correctAnswers = ["12341234123413412", "3412341234123412", "3414123412341", "2341234123412"];
+            
+            var questionsLeft = [];
+            
+            function setup() {
+                popQuestionsLeft();
+                questionAt = questionsLeft[0];
+                drawQuestion();
+                drawPic();
+                updateScore();
+            }
+            
+            function picked(choice) {
+                
+                var correctAnswer = parseInt(correctAnswers[yearAt].charAt(questionAt));
+                if (correctAnswer == parseInt(choice)) {
+                    score += 1;
+                }
+                questionsLeft.shift();
+                if (questionsLeft.length == 0) {
+                    yearAt += 1;
+                    if (yearAt == 4) {
+                        done();
+                        return;
+                    }
+                    popQuestionsLeft();
+                }
+                questionAt = questionsLeft[0];
+                drawQuestion();
+                drawPic();
+                updateScore();
+            }
+            
+            function updateScore() {
+                document.getElementById('score').innerHTML = '' + score;
+            }
+            
+            function popQuestionsLeft() {
+                for (i = 0; i < possibleYears[yearAt][1]; i++) {
+                    questionsLeft.push(i);
+                }
+                for (i = 0; i < 100; i++) {
+                    var r1 = Math.floor(Math.random() * possibleYears[yearAt][1]);
+                    var r2 = Math.floor(Math.random() * possibleYears[yearAt][1]);
+                    var temp = questionsLeft[r1];
+                    questionsLeft[r1] = questionsLeft[r2];
+                    questionsLeft[r2] = temp;
+                }
+            }
+            
+            function done() {
+                document.getElementById('bd').innerHTML = "<h1>Final score: " + score + "</h1><p>Thanks for playing and I hope u do well! To try again, reload the page :)<br><br><br><br><br><p>btw i give literally all the creds for pics and stuff to Darren Liang. I kinda did this cuz I was bored but he's a cool dude too for helping ya'll out so you should check out his Python thing if you haven't done so already";
+            }
+            
+            function drawQuestion() {
+                if (yearAt == 0) {
+                    var a = answers1[questionAt];
+                    for (i = 1; i < 5; i++) {
+                        document.getElementById('choice' + i).innerHTML = a[i - 1];
+                    }
+                }
+                else if (yearAt == 1) {
+                    var a = answers2[questionAt];
+                    for (i = 1; i < 5; i++) {
+                        document.getElementById('choice' + i).innerHTML = a[i - 1];
+                    }
+                }
+                else if (yearAt == 2) {
+                    var a = answers3[questionAt];
+                    for (i = 1; i < 5; i++) {
+                        document.getElementById('choice' + i).innerHTML = a[i - 1];
+                    }
+                }
+                else if (yearAt == 3) {
+                    var a = answers4[questionAt];
+                    for (i = 1; i < 5; i++) {
+                        document.getElementById('choice' + i).innerHTML = a[i - 1];
+                    }
+                }
+            }
+            
+            function drawPic() {
+                document.getElementById('image').src = 'assets/year_' + possibleYears[yearAt][0] + '/text_box/' + (questionAt + 1) + '.png';
+            }
+            
+            
+        </script>
+    
+    </head>
+    
+    <body onload="setup();" id="bd">
+        <center>
+            <div>
+                <table border="1">
+                    <tr>
+                        <td class="p">Score:</td>
+                    </tr>
+                    <tr>
+                        <td class="p" id="score"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+                <img src="" id="image" style="height: 70vh;">
+            </div>
+
+            <div id="choices">
+                <table>
+                    <tr>
+                        <td><button id="choice1" onclick="picked(1);"></button></td>
+                        <td><button id="choice2" onclick="picked(2);"></button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="choice3" onclick="picked(3);"></button></td>
+                        <td><button id="choice4" onclick="picked(4);"></button></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="audio_stuff">
+                <audio controls>
+                    <source src="assets/music/song.wav" type="audio/wav">
+                    <source src="assets/music/song.mp3" type="audio/mpeg">                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </center>
+    
+    </body>
+
+</html>
